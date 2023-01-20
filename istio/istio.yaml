@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ta-server-route
+  #namespace: backend
+spec:
+  hosts:
+    - ta-server-service.sharedvpc.svc.clusterset.local
+  http:
+  - route:
+    - destination:
+        host: ta-server-service.sharedvpc.svc.clusterset.local
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ta-server-destination
+  #namespace: backend
+spec:
+  host: ta-server-service.sharedvpc.svc.clusterset.local
+  trafficPolicy:
+    outlierDetection:
+      consecutiveErrors: 7
+      interval: 30s
+      baseEjectionTime: 30s

@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ta-server
+  name: ta-server-deployment
+  #namespace: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ta-server
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ta-server
+    spec:
+      containers:
+        - env:
+            - name: PORT
+              value: "8080"
+            - name: REDIS_HOST
+              value: ta-redis-service
+              #value: ta-redis-nginx-service
+              #value: "127.0.0.1"
+            - name: REDIS_PORT
+              value: "6379"
+              #value: "8000"
+          image: jojonicho/ta-server:latest
+          name: ta-server
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ta-server
+  name: ta-server-service
+  #namespace: server
+spec:
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8080
+  #- protocol: TCP
+    #port: 80
+    #targetPort: 8080
+  selector:
+    app: ta-server
+status:
+  loadBalancer: {}
+#---
+#apiVersion: networking.gke.io/v1
+#kind: MultiClusterService
+#metadata:
+  #labels:
+    #app: ta-server
+  #name: ta-server-service
+  ##namespace: server
+#spec:
+  #ports:
+    #- protocol: TCP
+      #port: 80
+      #targetPort: 8080
+  #selector:
+    #app: ta-server
+---
+apiVersion: net.gke.io/v1
+kind: ServiceExport
+metadata:
+  labels:
+    app: ta-server
+  name: ta-server-service
+  #namespace: sharedvpc

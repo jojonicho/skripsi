@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ta-redis
+  name: ta-redis-deployment
+  #namespace: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ta-redis
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ta-redis
+    spec:
+      containers:
+        - image: redis:latest
+          name: ta-redis
+          ports:
+            - containerPort: 6379
+          resources: {}
+      restartPolicy: Always
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ta-redis
+  name: ta-redis-service
+  #namespace: database
+spec:
+  ports:
+    - name: "6379"
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: ta-redis
+status:
+  loadBalancer: {}
+#---
+#apiVersion: networking.gke.io/v1
+#kind: MultiClusterService
+#metadata:
+  #labels:
+    #app: ta-redis
+  #name: ta-redis-service
+  ##namespace: database
+#spec:
+  #ports:
+    #- name: "6379"
+      #port: 6379
+      #targetPort: 6379
+  #selector:
+    #app: ta-redis

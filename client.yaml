@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ta-client
+  name: ta-client-deployment
+  #namespace: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ta-client
+  template:
+    metadata:
+      labels:
+        app: ta-client
+    spec:
+      containers:
+      - name: ta-client
+        image: curlimages/curl
+        command: ["/bin/sleep","infinity"]
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ta-client
+  name: ta-client-service
+  #namespace: client
+spec:
+  ports:
+  - name: http
+    port: 80
+  selector:
+    app: ta-client
