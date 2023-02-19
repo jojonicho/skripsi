@@ -1,1 +1,0 @@
-gcloud container clusters resize skripsi-373317-8697 --zone asia-southeast1-a --num-nodes=0

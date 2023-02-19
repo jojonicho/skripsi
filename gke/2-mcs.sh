@@ -21,3 +21,4 @@ gcloud container fleet memberships register $CLUSTER_NAME \
 gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member "serviceAccount:$PROJECT_ID.svc.id.goog[gke-mcs/gke-mcs-importer]" \
     --role "roles/compute.networkViewer"
+

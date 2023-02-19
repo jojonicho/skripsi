@@ -1,0 +1,1 @@
+rm -rf $CLUSTER_NAME
