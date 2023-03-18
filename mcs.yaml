@@ -1,0 +1,35 @@
+apiVersion: networking.gke.io/v1
+kind: MultiClusterService
+metadata:
+  labels:
+    app: ta-server
+  name: ta-server-service
+  #namespace: server
+spec:
+  template:
+    spec:
+      selector:
+        app: ta-server
+      ports:
+        - protocol: TCP
+          port: 8080
+          targetPort: 8080
+
+#---
+#apiVersion: networking.gke.io/v1
+#kind: MultiClusterService
+#metadata:
+  #labels:
+    #app: ta-redis
+  #name: ta-redis-service
+  ##namespace: database
+#spec:
+  #template:
+      #spec:
+        #selector:
+          #app: ta-redis
+        #ports:
+          #- name: "6379"
+            #port: 6379
+            #targetPort: 6379
+

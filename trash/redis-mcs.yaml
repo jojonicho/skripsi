@@ -1,0 +1,31 @@
+apiVersion: networking.gke.io/v1
+kind: MultiClusterService
+metadata:
+  labels:
+    app: ta-redis
+  name: ta-redis-service
+  #namespace: database
+spec:
+  template:
+      spec:
+        selector:
+          app: ta-redis
+        ports:
+          - name: "6379"
+            port: 6379
+            targetPort: 6379
+
+---
+apiVersion: networking.gke.io/v1
+kind: MultiClusterIngress
+metadata:
+  labels:
+    app: ta-redis
+  name: ta-redis-ingress
+spec:
+  template:
+    spec:
+      backend:
+        serviceName: ta-redis-service
+        servicePort: 6379
+

@@ -40,6 +40,11 @@ func main() {
 	defer conn.Close()
 
 	router := gin.Default()
+	// hello world for /
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "Hello World!"})
+	})
+
 	todoGroup := router.Group("/todos")
 	todoGroup.GET("", func(c *gin.Context) {
 		fmt.Printf("GET /todos\n")

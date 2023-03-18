@@ -24,6 +24,7 @@ spec:
           resources: {}
       restartPolicy: Always
 status: {}
+
 ---
 apiVersion: v1
 kind: Service
@@ -41,6 +42,7 @@ spec:
     app: ta-redis
 status:
   loadBalancer: {}
+
 #---
 #apiVersion: networking.gke.io/v1
 #kind: MultiClusterService

@@ -1,0 +1,27 @@
+apiVersion: networking.gke.io/v1
+kind: MultiClusterIngress
+metadata:
+  labels:
+    app: ta-server
+  name: ta-server-ingress
+spec:
+  template:
+    spec:
+      backend:
+        serviceName: ta-server-service
+        servicePort: 8080
+
+#---
+#apiVersion: networking.gke.io/v1
+#kind: MultiClusterIngress
+#metadata:
+  #labels:
+    #app: ta-redis
+  #name: ta-redis-ingress
+#spec:
+  #template:
+    #spec:
+      #backend:
+        #serviceName: ta-redis-service
+        #servicePort: 6379
+
