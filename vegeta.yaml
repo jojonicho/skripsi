@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: vegeta
+spec:
+  containers:
+  - name: vegeta
+    image: peterevans/vegeta
+    # Just sleep forever
+    command: [ "sleep" ]
+    args: [ "infinity" ]

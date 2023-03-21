@@ -7,3 +7,6 @@ gcloud container hub mesh update \
 
 gcloud container hub mesh describe --project $PROJECT_ID
 
+gcloud services enable \
+  anthos.googleapis.com \
+  --project=$PROJECT_ID
