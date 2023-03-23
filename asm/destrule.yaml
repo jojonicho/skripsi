@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: ta-server-destionationrule
+spec:
+  host: ta-server-service.sharedvpc.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      localityLbSetting:
+        enabled: true
+        failover:
+        - from: asia-southeast1-a
+          to: australia-southeast1-a 
+        - from: australia-southeast1-a 
+          to: asia-southeast1-a
+
+    outlierDetection:
+      consecutive5xxErrors: 1
+      interval: 1s
+      baseEjectionTime: 1m
