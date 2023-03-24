@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: ta-server
+    mcs: mcs
   name: ta-server-deployment
   #namespace: server
 spec:
