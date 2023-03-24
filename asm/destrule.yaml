@@ -15,6 +15,9 @@ spec:
           to: asia-southeast1-a
 
     outlierDetection:
+      splitExternalLocalOriginErrors: true
+      consecutiveLocalOriginFailures: 10
+
       consecutive5xxErrors: 1
       interval: 1s
       baseEjectionTime: 2s
