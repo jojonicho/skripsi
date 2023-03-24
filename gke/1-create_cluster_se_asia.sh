@@ -1,6 +1,6 @@
 export PROJECT_ID=`gcloud config get-value project`
-export M_TYPE=e2-micro
-#export M_TYPE=e2-standard-4
+#export M_TYPE=e2-micro
+export M_TYPE=e2-standard-4
 export ZONE=asia-southeast1-a
 export CLUSTER_NAME=${PROJECT_ID}-${RANDOM}
 
