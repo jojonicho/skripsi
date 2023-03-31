@@ -36,9 +36,6 @@ func main() {
 		IdleTimeout: 240 * time.Second,
 		Dial:        func() (redis.Conn, error) { return redis.Dial("tcp", redisAddress) },
 	}
-	conn := pool.Get()
-	defer conn.Close()
-
 	router := gin.Default()
 	// hello world for /
 	router.GET("/", func(c *gin.Context) {
@@ -47,6 +44,9 @@ func main() {
 
 	todoGroup := router.Group("/todos")
 	todoGroup.GET("", func(c *gin.Context) {
+		conn := pool.Get()
+		defer conn.Close()
+
 		fmt.Printf("GET /todos\n")
 		rawTodos, err := redis.Values(conn.Do("LRANGE", "todos", 0, -1))
 		if err != nil {
@@ -61,6 +61,9 @@ func main() {
 	})
 
 	todoGroup.POST("", func(c *gin.Context) {
+		conn := pool.Get()
+		defer conn.Close()
+
 		var req createTodoReq
 		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
