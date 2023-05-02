@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import sys
 import argparse
+import json
 
 parser = argparse.ArgumentParser()
 parser.add_argument('dir_name')
@@ -39,8 +40,10 @@ sns.set_theme()
 sns.set_style("dark")
 sns.set_context("paper")
 sns.set_color_codes("pastel")
+# increase legend size
+# plt.rcParams['legend.fontsize'] = 16
 
-fig, ax = plt.subplots(1,1,figsize=(20,10))
+fig, ax = plt.subplots(1,1,figsize=(7.5,5))
 
 # hgrm_df = pd.read_csv(hgrm_file, comment='#', skip_blank_lines=True, sep=r"\s+", engine='python', header=0, names=['Latency', 'Percentile'], usecols=[0, 3])
 sns.lineplot(x='Percentile', y='Latency', data=hgrm_df, ax=ax, hue='RPS')
@@ -53,4 +56,5 @@ ax.set_xticks([1, 10, 100, 1000, 10000, 100000, 1000000, 10000000])
 ax.set_xticklabels(['0', '90', '99', '99.9', '99.99', '99.999', '99.9999', '99.99999'])
 
 fig.tight_layout()
-fig.savefig(f"{dir_name}/{dir_name}.png")
+fig.savefig(f"plots/{dir_name}.png")
+
