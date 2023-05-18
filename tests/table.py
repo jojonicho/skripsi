@@ -54,57 +54,76 @@ def process_dc(dc):
     dc['latencies']['max'] = dc['latencies']['max'] / 1000000
     return dc
 
-json_file = f"{mc_sea}/{10}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+def process_multiple_dc(filename, rps):
+    # try out every mc_sea file from mc_sea + '-1' and increment until file not exists
+    i = 1
+    dc = None
+    while True:
+        try:
+            json_file = f"{filename}-{i}/{rps}.json"
+            if i == 1:
+                dc = process_dc(json.loads(open(json_file).read()))
+            else:
+                ndc = process_dc(json.loads(open(json_file).read()))
+
+                dc['latencies']['mean'] += ndc['latencies']['mean']
+                dc['latencies']['min'] = min(dc['latencies']['min'], ndc['latencies']['min'])
+                dc['latencies']['max'] = max(dc['latencies']['max'], ndc['latencies']['max'])
+                dc['success'] += ndc['success']
+            i += 1
+        except:
+            i -= 1
+            break
+
+    dc['latencies']['mean'] /= i
+    dc['success'] /= i
+
+    # limit min, mean, max to 3 decimal places
+    dc['latencies']['mean'] = round(dc['latencies']['mean'], 3)
+    dc['latencies']['min'] = round(dc['latencies']['min'], 3)
+    dc['latencies']['max'] = round(dc['latencies']['max'], 3)
+
+    return dc
+
+dc = process_multiple_dc(mc_sea, 10)
 print(f" & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{mc_sea}/{50}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(mc_sea, 50)
 print(f" & southeast-asia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{mc_sea}/{100}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(mc_sea, 100)
 print(f"MCS with & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{2-7}}")
 
 # aus
 
-json_file = f"{mc_aus}/{10}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(mc_aus, 10)
 print(f"MCI & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{mc_aus}/{50}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(mc_aus, 50)
 print(f" & australia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{mc_aus}/{100}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(mc_aus, 100)
 print(f" & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\hline")
 
 # asm
 # sea
 
-json_file = f"{asm_sea}/{10}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(asm_sea, 10)
 print(f" & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{asm_sea}/{50}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(asm_sea, 50)
 print(f" & southeast-asia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{asm_sea}/{100}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(asm_sea, 100)
 print(f"Istio / & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{2-7}}")
 
 # aus
 
-json_file = f"{asm_aus}/{10}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(asm_aus, 10)
 print(f"ASM & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{asm_aus}/{50}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(asm_aus, 50)
 print(f" & australia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
-json_file = f"{asm_aus}/{100}.json"
-dc = process_dc(json.loads(open(json_file).read()))
+dc = process_multiple_dc(asm_aus, 100)
 print(f" & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\hline")
