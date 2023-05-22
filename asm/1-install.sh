@@ -7,7 +7,4 @@
 --enable-all \
 --ca mesh_ca
 
-#kubectl label namespace default istio-injection=enabled
-#kubectl label namespace gke-mcs istio-injection=enabled
-
 kubectl describe controlplanerevision asm-managed -n istio-system
