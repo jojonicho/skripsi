@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ta-vegeta
+  name: ta-vegeta-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ta-vegeta
+  template:
+    metadata:
+      labels:
+        app: ta-vegeta
+    spec:
+      containers:
+      - name: ta-vegeta
+        image: peterevans/vegeta
+        command: ["/bin/sleep","infinity"]
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ta-vegeta
+  name: ta-vegeta-service
+spec:
+  ports:
+  - name: http
+    port: 80
+  selector:
+    app: ta-vegeta
