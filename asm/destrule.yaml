@@ -2,7 +2,6 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: asm-ingress-gateway-ilb
-  namespace: asm-gateways
 spec:
   selector:
     asm: ingressgateway-ilb # use the internal ASM ingress gateway
