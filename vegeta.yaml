@@ -18,7 +18,7 @@ spec:
       - name: ta-vegeta
         image: jojonicho/vegeta
         command: ["/bin/vegeta"]
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
       restartPolicy: Always
 status: {}
 
