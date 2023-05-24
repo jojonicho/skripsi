@@ -9,10 +9,10 @@ spec:
       localityLbSetting:
         enabled: true
         failover:
-        - from: asia-southeast1-a
-          to: australia-southeast1-a 
-        - from: australia-southeast1-a 
-          to: asia-southeast1-a
+        - from: asia-southeast1
+          to: australia-southeast1
+        - from: australia-southeast1
+          to: asia-southeast1
 
     outlierDetection:
       splitExternalLocalOriginErrors: true
