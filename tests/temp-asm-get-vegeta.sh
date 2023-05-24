@@ -1,7 +1,6 @@
 export CLIENT_ZONE_ASIA="$(kubectl get pods | grep -o 'ta-vegeta-deployment-\w*-\w*\b')"
 
-#RPS_LIST=(10 50 100)
-RPS_LIST=(10)
+RPS_LIST=(10 50 100)
 OUTPUT_DIR=$1
 mkdir $OUTPUT_DIR
 
