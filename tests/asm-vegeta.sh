@@ -13,6 +13,8 @@ do
     "echo 'GET http://ta-server-service.sharedvpc:8080/todos' | vegeta attack -rate=$RPS -duration=5s -output=ha.bin && cat ha.bin" > ${OUTPUT_DIR}/results.${RPS}rps.bin
 
   vegeta report -type=text ${OUTPUT_DIR}/results.${RPS}rps.bin
+  vegeta report -type=json $OUTPUT_DIR/results.${RPS}rps.bin > $OUTPUT_DIR/${RPS}.json
+
   kubectl delete pod vegeta
 
 done
