@@ -1,34 +1,34 @@
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: asm-ingress-gateway-ilb
-spec:
-  selector:
-    asm: ingressgateway-ilb # use the internal ASM ingress gateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - '*'
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ta-server-virtualservice-ilb
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - asm-gateways/asm-ingress-gateway-ilb
-  http:
-    - route:
-      - destination:
-          host: ta-server-service
-          port:
-            number: 80
----
+#apiVersion: networking.istio.io/v1alpha3
+#kind: Gateway
+#metadata:
+  #name: asm-ingress-gateway-ilb
+#spec:
+  #selector:
+    #asm: ingressgateway-ilb # use the internal ASM ingress gateway
+  #servers:
+  #- port:
+      #number: 80
+      #name: http
+      #protocol: HTTP
+    #hosts:
+    #- '*'
+#---
+#apiVersion: networking.istio.io/v1alpha3
+#kind: VirtualService
+#metadata:
+  #name: ta-server-virtualservice-ilb
+#spec:
+  #hosts:
+  #- "*"
+  #gateways:
+  #- asm-gateways/asm-ingress-gateway-ilb
+  #http:
+    #- route:
+      #- destination:
+          #host: ta-server-service
+          #port:
+            #number: 80
+#---
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -40,10 +40,10 @@ spec:
       localityLbSetting:
         enabled: true
         failover:
-        - from: asia-southeast1
-          to: australia-southeast1
-        - from: australia-southeast1
-          to: asia-southeast1
+          - from: asia-southeast1
+            to: australia-southeast1
+          - from: australia-southeast1
+            to: asia-southeast1
 
     outlierDetection:
       splitExternalLocalOriginErrors: true
