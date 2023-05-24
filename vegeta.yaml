@@ -17,7 +17,7 @@ spec:
       containers:
       - name: ta-vegeta
         image: jojonicho/vegeta
-        command: ["/bin/vegeta","sleep infinity"]
+        command: ["/bin/vegeta"]
         imagePullPolicy: IfNotPresent
       restartPolicy: Always
 status: {}
