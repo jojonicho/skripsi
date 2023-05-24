@@ -19,7 +19,7 @@ spec:
         image: peterevans/vegeta
         #image: jojonicho/vegeta
         #command: ["/bin/vegeta"]
-        command: ["sleep", "1000", "bin/vegeta"]
+        command: ["sleep", "1000"]
         imagePullPolicy: Always
       restartPolicy: Always
 status: {}
