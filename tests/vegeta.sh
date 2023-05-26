@@ -1,4 +1,5 @@
-export CLIENT_ZONE_ASIA="$(kubectl get pods | grep -o 'ta-client-deployment-\w*-\w*\b')"
+#export CLIENT_ZONE_ASIA="$(kubectl get pods | grep -o 'ta-client-deployment-\w*-\w*\b')"
+export CLIENT_ZONE_ASIA="$(kubectl get pods | grep -o 'ta-vegeta-deployment-\w*-\w*\b')"
 export VIP_FLEET="$(kubectl describe mci ta-server-ingress | grep -w 'VIP:' | tail -1 | sed 's/VIP:[[:space:]]*//; s/^[[:space:]]*//')"
 #kubectl exec -it $CLIENT_ZONE_ASIA -c ta-client -- sh -c "curl -s $VIP_FLEET/todos"
 
@@ -15,7 +16,7 @@ do
     #"echo 'GET http://$VIP_FLEET/todos' | vegeta attack -rate=$RPS -duration=5s -output=ha.bin && cat ha.bin" > ${OUTPUT_DIR}/results.${RPS}rps.bin
   #kubectl delete pod vegeta
 
-  kubectl exec -it $CLIENT_ZONE_ASIA -c ta-vegeta -- sh -c \ "echo 'GET http://ta-server-service.sharedvpc:8080/todos' | vegeta attack -rate=$RPS -duration=5s -output=ha.bin"
+  kubectl exec -it $CLIENT_ZONE_ASIA -c ta-vegeta -- sh -c \ "echo 'GET http://$VIP_FLEET/todos' | vegeta attack -rate=$RPS -duration=5s -output=ha.bin"
   kubectl cp $CLIENT_ZONE_ASIA:ha.bin ${OUTPUT_DIR}/results.${RPS}rps.bin
 
   vegeta report -type=text ${OUTPUT_DIR}/results.${RPS}rps.bin
