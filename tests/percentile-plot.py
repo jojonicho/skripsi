@@ -56,5 +56,5 @@ ax.set_xticks([1, 10, 100, 1000, 10000, 100000, 1000000, 10000000])
 ax.set_xticklabels(['0', '90', '99', '99.9', '99.99', '99.999', '99.9999', '99.99999'])
 
 fig.tight_layout()
-fig.savefig(f"plots/{dir_name}.png")
+fig.savefig(f"percentile-plots/{dir_name}.png")
 

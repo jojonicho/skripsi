@@ -12,6 +12,7 @@ do
       #echo $OUTPUT_DIR-$i/results.${RPS}rps.bin
       cat $OUTPUT_DIR-$i/results.${RPS}rps.bin | ./vegeta encode --output=$OUTPUT_DIR-$i/$RPS.bin
     done
-  vegeta plot -title="$TITLE" $OUTPUT_DIR-$i/10.bin $OUTPUT_DIR-$i/50.bin $OUTPUT_DIR-$i/100.bin > $OUTPUT_DIR-$i/plot.html
+  ./vegeta plot -title="$TITLE" $OUTPUT_DIR-$i/10.bin $OUTPUT_DIR-$i/50.bin $OUTPUT_DIR-$i/100.bin > $OUTPUT_DIR-$i/plot.html
+  chromium --headless --disable-gpu --hide-scrollbars --window-size=1100,610 --screenshot=$OUTPUT_DIR-$i/$OUTPUT_DIR-$i.png $OUTPUT_DIR-$i/plot.html
 done
 
