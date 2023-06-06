@@ -8,4 +8,4 @@ do
   vegeta report -type=json $OUTPUT_DIR/results.${RPS}rps.bin > $OUTPUT_DIR/${RPS}.json
 done
 
-python3.8 plot.py $OUTPUT_DIR
+python3.8 percentile-plot.py $OUTPUT_DIR
