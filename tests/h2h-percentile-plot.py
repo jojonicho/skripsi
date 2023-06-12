@@ -58,6 +58,7 @@ fig, ax = plt.subplots(1,2,figsize=(7.5,5))
 # hgrm_df = pd.read_csv(hgrm_file, comment='#', skip_blank_lines=True, sep=r"\s+", engine='python', header=0, names=['Latency', 'Percentile'], usecols=[0, 3])
 
 for i in range(len(dir_names)):
+    hgrm_df = hgrm_dfs[i]
     sns.lineplot(x='Percentile', y='Latency', data=hgrm_dfs[i], ax=ax[i], hue='RPS')
     name = dir_names[i]
 

@@ -86,44 +86,44 @@ def process_multiple_dc(filename, rps):
     return dc
 
 dc = process_multiple_dc(mc_sea, 10)
-print(f" & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f" & & 10 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(mc_sea, 50)
-print(f" & southeast-asia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f" & southeast-asia & 50 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(mc_sea, 100)
-print(f"MCS with & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{2-7}}")
+print(f"MCS with & & 100 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{2-7}}")
 
 # aus
 
 dc = process_multiple_dc(mc_aus, 10)
-print(f"MCI & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f"MCI & & 10 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(mc_aus, 50)
-print(f" & australia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f" & australia & 50 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(mc_aus, 100)
-print(f" & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\hline")
+print(f" & & 100 & {dc['success'] * 100:.2f}\% \\\\ \\hline")
 
 # asm
 # sea
 
 dc = process_multiple_dc(asm_sea, 10)
-print(f" & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f" & & 10 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(asm_sea, 50)
-print(f" & southeast-asia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f" & southeast-asia & 50 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(asm_sea, 100)
-print(f"Istio / & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{2-7}}")
+print(f"Istio / & & 100 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{2-7}}")
 
 # aus
 
 dc = process_multiple_dc(asm_aus, 10)
-print(f"ASM & & 10 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f"ASM & & 10 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(asm_aus, 50)
-print(f" & australia & 50 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
+print(f" & australia & 50 & {dc['success'] * 100:.2f}\% \\\\ \\cline{{3-7}}")
 
 dc = process_multiple_dc(asm_aus, 100)
-print(f" & & 100 & {dc['latencies']['min']} & {dc['latencies']['mean']} & {dc['latencies']['max']} & {dc['success'] * 100:.2f}\% \\\\ \\hline")
+print(f" & & 100 & {dc['success'] * 100:.2f}\% \\\\ \\hline")

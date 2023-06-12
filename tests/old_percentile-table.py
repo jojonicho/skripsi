@@ -59,24 +59,23 @@ def process_dc(dc, filename, i, rps):
 res = []
 
 location_mp = {"sea": "southeast-asia", "aus": "australia"}
-# location_mp = {"sea": "sea", "aus": "aus"}
 
 def process_multiple_dc(filename):
-    for rps in [10, 50, 100]:
-        i = 1
-        while True:
-            try:
+    i = 1
+    while True:
+        try:
+            for rps in [10, 50, 100]:
                 json_file = f"{filename}-{i}/{rps}.json"
                 dc = process_dc(json.loads(open(json_file).read()), filename, i, rps)
                 # print(f" & & {i} & {dc['rps']} & {dc['50th']} & {dc['95th']} \\\\ \\cline{{3-6}}")
                 location = location_mp[filename.split('-')[1]]
-                res.append([location, dc['rps'], dc['50th'], dc['95th'], "\\\\ \\cline{3-6}"])
+                res.append(["", location, i, dc['rps'], dc['50th'], dc['95th'], "\\\\ \\cline{3-6}"])
 
-                i += 1
-            except Exception as e:
-                # print(e)
-                i -= 1
-                break
+            i += 1
+        except Exception as e:
+            # print(e)
+            i -= 1
+            break
 
 dc = process_multiple_dc(mc_sea)
 
@@ -93,7 +92,12 @@ dc = process_multiple_dc(asm_sea)
 dc = process_multiple_dc(asm_aus)
 
 res[8][-1] = "\\\\ \\cline{2-6}"
+res[8][0] = "MCS with"
+res[9][0] = "MCI"
+
 res[26][-1] = "\\\\ \\cline{2-6}"
+res[26][0] = "Istio /"
+res[27][0] = "ASM"
 
 res[17][-1] = "\\\\ \\hline"
 res[-1][-1] = "\\\\ \\hline"
@@ -122,26 +126,23 @@ for i in range(18):
     res[i].append("")
 
     # res[i][-1] = res[i][-3]
-    # res[i][-1] = "\\\\ \\cline{3-12}"
-    res[i][-1] = "\\\\ \\cline{3-6}"
-    l, r = 2, 3
-    res[i][2:6] = [mcs[i][l], asm[i][r], mcs[i][r], asm[i][r]]
+    res[i][-1] = "\\\\ \\cline{4-7}"
+    res[i][4:8] = [mcs[i][4], asm[i][4], mcs[i][5], asm[i][5]]
     
 
-    if res[i][l] < res[i][r]:
-        diff2 += res[i][r] - res[i][l]
-        res[i][l] = "\\textbf{" + str(res[i][l]) + "}"
+    if res[i][4] < res[i][5]:
+        diff2 += res[i][5] - res[i][4]
+        res[i][4] = "\\textbf{" + str(res[i][4]) + "}"
         c2 += 1
     else:
-        res[i][r] = "\\textbf{" + str(res[i][r]) + "}"
+        res[i][5] = "\\textbf{" + str(res[i][5]) + "}"
 
-    r, l = 4, 5
-    if res[i][l] < res[i][r]:
-        res[i][l] = "\\textbf{" + str(res[i][l]) + "}"
+    if res[i][6] < res[i][7]:
+        res[i][6] = "\\textbf{" + str(res[i][6]) + "}"
     else:
-        diff += res[i][l] - res[i][r]
+        diff += res[i][6] - res[i][7]
         c += 1
-        res[i][r] = "\\textbf{" + str(res[i][r]) + "}"
+        res[i][7] = "\\textbf{" + str(res[i][7]) + "}"
 
 diff /= c
 diff2 /= c2
@@ -150,13 +151,17 @@ print(diff2, c2)
 
 res[17][-1] = "\\\\ \\hline"
 
-debug_res(res)
+for r in res:
+    # everything except last
+    for i in range(1, len(r) - 2):
+        print(r[i], end=" & ")
+    print(r[-2], end=" ")
+    print(r[-1])
 
-print("MEAN MIN MAX addition")
 
 # MEAN MIN MAX
 
-N_TESTCASES = 3
+res = []
 
 def process_dc(dc):
     dc['mean'] = dc['latencies']['mean'] / 1000000
@@ -164,7 +169,7 @@ def process_dc(dc):
     dc['max'] = dc['latencies']['max'] / 1000000
     return dc
 
-def process_multiple_dc(filename, rps, table_index, table_col):
+def process_multiple_dc(filename, rps):
     # try out every mc_sea file from mc_sea + '-1' and increment until file not exists
     i = 1
     dc = None
@@ -193,99 +198,71 @@ def process_multiple_dc(filename, rps, table_index, table_col):
     dc['mean'] = round(dc['mean'], 3)
     dc['min'] = round(dc['min'], 3)
     dc['max'] = round(dc['max'], 3)
+    res.append([location, rps, dc['min'], dc['mean'], dc['max'], "\\\\ \\cline{3-5}"])
 
-    if table_col == 0:
-        for i in range(N_TESTCASES):
-            prv_back = res[table_index + i][-1]
-            res[table_index + i][-1] = ""
-            res[table_index + i].extend(["", "", "", "", "", ""])
-            res[table_index + i][-1] = prv_back
+process_multiple_dc(mc_sea, 10)
+process_multiple_dc(mc_sea, 50)
+process_multiple_dc(mc_sea, 100)
 
-    res[table_index + N_TESTCASES // 2][-7 + table_col] = dc['min']
-    res[table_index + N_TESTCASES // 2][-5 + table_col] = dc['mean']
-    res[table_index + N_TESTCASES // 2][-3 + table_col] = dc['max']
+process_multiple_dc(mc_aus, 10)
+process_multiple_dc(mc_aus, 50)
+process_multiple_dc(mc_aus, 100)
 
-    res[table_index + N_TESTCASES - 1][-1] = "\\\\ \\hline"
-    if table_col == 1:
-        if res[table_index + N_TESTCASES // 2][-7] < res[table_index + N_TESTCASES // 2][-6]:
-            res[table_index + N_TESTCASES // 2][-7] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-7]) + "}"
-        else:
-            res[table_index + N_TESTCASES // 2][-6] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-6]) + "}"
+process_multiple_dc(asm_sea, 10)
+process_multiple_dc(asm_sea, 50)
+process_multiple_dc(asm_sea, 100)
 
-        if res[table_index + N_TESTCASES // 2][-5] < res[table_index + N_TESTCASES // 2][-4]:
-            res[table_index + N_TESTCASES // 2][-5] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-5]) + "}"
-        else:
-            res[table_index + N_TESTCASES // 2][-4] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-4]) + "}"
-
-        if res[table_index + N_TESTCASES // 2][-3] < res[table_index + N_TESTCASES // 2][-2]:
-            res[table_index + N_TESTCASES // 2][-3] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-3]) + "}"
-        else:
-            res[table_index + N_TESTCASES // 2][-2] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-2]) + "}"
-    # res.append([location, rps, dc['min'], dc['mean'], dc['max'], "\\\\ \\cline{3-5}"])
-
-
-process_multiple_dc(mc_sea, 10, 0, 0)
-process_multiple_dc(mc_sea, 50, N_TESTCASES, 0)
-process_multiple_dc(mc_sea, 100, 2 * N_TESTCASES, 0)
-
-process_multiple_dc(asm_sea, 10, 0, 1)
-process_multiple_dc(asm_sea, 50, N_TESTCASES, 1)
-process_multiple_dc(asm_sea, 100, 2 * N_TESTCASES, 1)
-
-process_multiple_dc(mc_aus, 10, 3 * N_TESTCASES, 0)
-process_multiple_dc(mc_aus, 50, 4 * N_TESTCASES, 0)
-process_multiple_dc(mc_aus, 100, 5 * N_TESTCASES, 0)
-
-process_multiple_dc(asm_aus, 10, 3 * N_TESTCASES, 1)
-process_multiple_dc(asm_aus, 50, 4 * N_TESTCASES, 1)
-process_multiple_dc(asm_aus, 100, 5 * N_TESTCASES, 1)
+process_multiple_dc(asm_aus, 10)
+process_multiple_dc(asm_aus, 50)
+process_multiple_dc(asm_aus, 100)
 
 debug_res(res)
 
 # HEAD TO HEAD
-# mcs = res[:6]
-# asm = res[6:]
+mcs = res[:6]
+asm = res[6:]
 
-# res = res[:6]
-# diff = 0
-# c = 0
+res = res[:6]
+diff = 0
+c = 0
 
-# diff2, c2 = 0, 0
+diff2, c2 = 0, 0
 
-# for i in range(6):
-    # res[i].append("")
-    # res[i].append("")
-    # res[i].append("")
+for i in range(6):
+    res[i].append("")
+    res[i].append("")
+    res[i].append("")
 
-    # # 2 -> min
-    # # 3 -> mean
-    # # 4 -> max
+    # 2 -> min
+    # 3 -> mean
+    # 4 -> max
 
-    # # transform to
-    # # 2 3 - min mcs, min asm
-    # # 3 4
-    # # 5 6 - max mcs, max asm
-    # res[i][2:7] = [mcs[i][2], asm[i][2], mcs[i][3], asm[i][3], mcs[i][4], asm[i][4]]
-    # # add bold to smaller value
-    # if res[i][2] < res[i][3]:
-        # res[i][2] = "\\textbf{" + str(res[i][2]) + "}"
-    # else:
-        # res[i][3] = "\\textbf{" + str(res[i][3]) + "}"
+    # transform to
+    # 2 3 - min mcs, min asm
+    # 3 4
+    # 5 6 - max mcs, max asm
+    res[i][2:7] = [mcs[i][2], asm[i][2], mcs[i][3], asm[i][3], mcs[i][4], asm[i][4]]
+    # add bold to smaller value
+    if res[i][2] < res[i][3]:
+        res[i][2] = "\\textbf{" + str(res[i][2]) + "}"
+    else:
+        res[i][3] = "\\textbf{" + str(res[i][3]) + "}"
 
-    # if res[i][4] < res[i][5]:
-        # res[i][4] = "\\textbf{" + str(res[i][4]) + "}"
-    # else:
-        # res[i][5] = "\\textbf{" + str(res[i][5]) + "}"
+    if res[i][4] < res[i][5]:
+        res[i][4] = "\\textbf{" + str(res[i][4]) + "}"
+    else:
+        res[i][5] = "\\textbf{" + str(res[i][5]) + "}"
 
-    # if res[i][6] < res[i][7]:
-        # res[i][6] = "\\textbf{" + str(res[i][6]) + "}"
-    # else:
-        # res[i][7] = "\\textbf{" + str(res[i][7]) + "}"
+    if res[i][6] < res[i][7]:
+        res[i][6] = "\\textbf{" + str(res[i][6]) + "}"
+    else:
+        res[i][7] = "\\textbf{" + str(res[i][7]) + "}"
 
-    # res[i][-1] = "\\\\ \\cline{3-8}"
+    res[i][-1] = "\\\\ \\cline{3-8}"
 
-# res[-1][-1] = "\\\\ \\hline"
+res[-1][-1] = "\\\\ \\hline"
 
 
-# print()
-# debug_res(res)
+print()
+debug_res(res)
+
