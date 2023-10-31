@@ -1,0 +1,41 @@
+%
+% Halaman Abstract
+%
+% @author  Andreas Febrian
+% @version 2.1.2
+% @edit by Ichlasul Affan
+%
+
+\chapter*{ABSTRACT}
+\singlespacing
+
+\vspace*{0.2cm}
+
+% Untuk conditional statement pembimbing dua
+\def\blank{}
+
+\noindent \begin{tabular}{l l p{11.0cm}}
+	Name&: & \penulis \\
+	Study Program&: & \studyProgram \\
+	Title&: & \judulInggris \\
+	Counsellor&: & \pembimbingSatu \\
+	\ifx\blank\pembimbingDua
+	\else
+		\ &\ & \pembimbingDua \\
+	\fi
+	\ifx\blank\pembimbingTiga
+	\else
+		\ &\ & \pembimbingTiga \\
+	\fi
+\end{tabular} \\
+
+\vspace*{0.5cm}
+
+\noindent With the need of providing services to ever-growing worldwide users, web application services must adapt new technologies in order to fulfill these needs. As setting up physical servers across the globe is a daunting task, cloud service providers are an essential tool to reach geographical coverage for worldwide web services. Further advancements on the developer experience of deploying web applications can be seen in tools such as Kubernetes, a widely adopted tool that's supported in most cloud platforms that enables the implementation of geo-distributed clusters for applications with a multi-national user base. However, there is a scarcity of studies regarding geo-distributed clusters methods and its performance. Therefore, this study intends to bridge that knowledge gap by implementing a solution using Istio (Anthos Service Mesh), the most used service mesh for kubernetes applications as well as a cloud native solution on Google Cloud Platform using MultiClusterService. This study found that both approaches are reliable, however, Istio / ASM has a slightly lower latency for the vast majority of requests. In addition, both approaches are a viable choice for worldwide applications, as they both use geo-aware load balancing, which routes user requests to the nearest available cluster. This study's scripts and test results are open-sourced for further studies about geo-distributed Kubernetes-based applications.\\
+
+\vspace*{0.2cm}
+
+\noindent Key words: \\ Kubernetes, Google Cloud Platform, MultiClusterService, Istio, Anthos Service Mesh \\
+
+\setstretch{1.4}
+\newpage

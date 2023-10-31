@@ -1,0 +1,112 @@
+%-----------------------------------------------------------------------------%
+\chapter{\babSatu}
+\label{bab:1}
+%-----------------------------------------------------------------------------%
+% Pada bab ini, akan dijelaskan tentang latar belakang dan permasalahan yang diselesaikan pada penelitian ini.
+This chapter discusses the background, problem definition, research objectives, research scopes, and writing systematics. The goal of this chapter is to describe the background of the research topic and the problem that is intended to be solved while defining objectives, scopes, and writing systematics as a guide for this research.
+
+%-----------------------------------------------------------------------------%
+\section{Background}
+\label{sec:background}
+%-----------------------------------------------------------------------------%
+% \todo{Tentukan latar belakang dari penelitian Anda di sini (\f{background}).}
+The number of internet users increases every year with approximately 5.3 billion users in 2023 \citep{cisco-2020}. In anticipation of such growth, applications which serve users from all over the globe must be able to handle those kinds of traffic. Therefore, to handle traffic from different parts of the globe with high performance, multiple servers are deployed in multiple regions of the globe. An on-premise server approach introduces multiple complexities such as hardware and maintenance costs for every single physical machine. A simpler approach is to use a cloud-based service such as Google Cloud Platform.
+
+% insert gcp explanation here
+Google Cloud Platform (GCP) is a cloud computing service that offers a wide range of technical solutions to help aid the development and deployment of web applications. One of the services that Google Cloud Platform provides is Google Kubernetes Engine, a cloud solution for containerized applications using Kubernetes. Kubernetes is an open-source platform that provides an abstraction of containers and simplifies deploying, monitoring, and scaling a web-based application. Containerized applications improve the developer experience as developers do not need to worry about the deployment process and instead can focus entirely on application development \citep{xie-2020}. 
+
+Kubernetes on the cloud offers a solution for applications with an international user base called geo-distributed clusters. Geo-distributed clusters are Kubernetes clusters that are spread across the world in order to minimize the latency of server response by reducing the physical distance between a user and the server, thus creating a better user experience. In a geo-distributed cluster configuration, traffic handling is done by a load balancer. The load balancer ideally distributes traffic efficiently to Kubernetes clusters. Kubernetes clusters are chosen based on several factors such as request-to-response distance, cluster workload (CPU) percentage, and many more. However, according to \citet{andrew-2023}, Google Cloud's load balancer does not handle geo-distributed applications very well. Therefore, there is a need to explore other load-balancing options that can work on a cloud-based application. An alternative is to use a service mesh.
+
+% There are several ways of creating a multi-cluster infrastructure with Kubernetes on GCP, this study will look into two of those approaches: MultiClusterService with MultiClusterIngress and using Istio Serice Mesh.
+
+% For a multi-cluster multi-region application, we can configure a Multi-Cluter Service to register services into a cluster set and handle traffic through a Multi-Cluster Ingress.
+
+%--------------------------------------------- efficiently, --------------------------------%
+% \section{Problem}
+% \label{sec:problem}
+%-----------------------------------------------------------------------------%
+
+A service mesh is an infrastructure layer used to manage communication between services. A major benefit of using service mesh is a more configurable load balancing which has the upside of having locality-aware load balancing which is a load balancer that routes a user to the closest server. Three of the service mesh with the most stars on GitHub are Istio, Consul, and Linkerd respectively. As the purpose of this study is not to compare different service meshes, Istio is chosen for being supported by the Google Cloud Platform under the name of Anthos Service Mesh. Istio is a service mesh compatible with existing Kubernetes clusters. Istio offers locality-aware load balancing that considers the incoming request's geographical location to determine which server clusters are used to process the response with the goal of increasing the performance of web applications.
+
+%-----------------------------------------------------------------------------%
+\section{Problem Definition}
+\label{sec:definisiMasalah}
+%-----------------------------------------------------------------------------%
+
+This research has the following problem definition:
+\begin{itemize}
+	% \item How does load balancing affect the performance of worldwide applications?
+    % \item How does locality load balancing affect worldwide application performance?
+    \item How does a geo-distributed cluster architecture improve the reliability of worldwide applications?
+    \item How does the Istio approach improve application performance?
+\end{itemize}
+
+
+
+%-----------------------------------------------------------------------------%
+\section{Research Objectives}
+\label{sec:tujuan}
+%-----------------------------------------------------------------------------%
+This research has the following objectives:
+\begin{itemize}
+	\item To implement and evaluate the effects of google cloud load balancing on the performance of a worldwide application.
+    \item To implement and evaluate the effects of locality load balancing on the performance of a worldwide application.
+\end{itemize}
+
+\section{Research Scopes}
+\label{sec:batasanMasalah}
+%-----------------------------------------------------------------------------%
+This research has the following scopes:
+
+\begin{itemize}
+	\item Application performance testing in multi-region geo-distributed clusters is limited to simple web service applications.
+    \item Multi-region geo-distributed cluster testing is limited to the cloud platform by Google Cloud Platform (GCP).
+\end{itemize}
+%-----------------------------------------------------------------------------%
+% \section{Posisi Penelitian}
+% \label{sec:posisiPenelitian}
+% %-----------------------------------------------------------------------------%
+% \todo{Sebutkan posisi penelitian Anda. Ada baiknya jika Anda menggunakan gambar atau diagram. Template ini telah menyediakan contoh cara memasukkan gambar.}
+
+% \begin{figure}
+% 	\centering
+% 	\includegraphics[width=0.4\textwidth]{assets/pics/makara.png}
+% 	\caption{Penjelasan singkat terkait gambar.}
+% 	\label{fig:research_position}
+% \end{figure}
+
+% \todo{Jelaskan \pic~\ref{fig:research_position} di sini.}
+
+
+%-----------------------------------------------------------------------------%
+
+% Berikut ini adalah langkah penelitian yang telah dilakukan:
+% \begin{enumerate}
+% 	\item Tinjauan literatur \\
+% 	Pada tahap ini, dipelajari teori-teori yang terkait dengan penelitian ini untuk mendapatkan konsep dasar yang dibutuhkan dalam mencapai tujuan penelitian.
+% 	\item Analisis implementasi dan kesimpulan \\
+% 	Pada tahap ini, digunakan studi kasus untuk analisis terkait kegunaan \f{template}. Setelah melakukan analisis tersebut, ditarik kesimpulan keseluruhan dari penelitian ini.
+% \end{enumerate}
+
+
+%-----------------------------------------------------------------------------%
+\section{Writing Systematics}
+\label{sec:sistematikaPenulisan}
+%-----------------------------------------------------------------------------%
+The research report consists of six chapters, namely the introduction, literature review, methodology, implementation, results and analysis, and conclusions. The following are the descriptions of each chapter,
+\begin{itemize}
+	\item Chapter 1 \babSatu \\
+	    This chapter is the introduction to this research which consists of the background, problem definition, research objectives, research scopes, and writing systematics.
+	\item Chapter 2 \babDua \\
+            This chapter discusses the theoretical foundation of this study from literature reviews to bridge the gap between theory and practice.
+	\item Chapter 3 \babTiga \\
+	    This chapter discusses the research methodology which includes research stages, application infrastructure design, testing scenarios, and evaluation metrics.
+	\item Chapter 4 \babEmpat \\
+		This chapter discusses the implementation of the application which is then deployed according to the test scenarios.
+	\item Chapter 5 \babLima \\
+	    This chapter discusses the findings from the experiments and presents the analysis from each of the test scenarios.
+	\item Chapter 6 \kesimpulan \\
+	    This chapter discusses the conclusion of this research as well as suggestions for future research.    
+\end{itemize}
+
+% \todo{Anda bisa mengubah atau menambahkan penjelasan singkat mengenai isi masing-masing bab. Setiap tugas akhir pasti ada yang berbeda pada bagian ini.}

@@ -1,0 +1,50 @@
+%---------------------------------------------------------------
+\chapter{\kesimpulan}
+\label{bab:6}
+%---------------------------------------------------------------
+% Pada bab ini, Penulis akan memaparkan kesimpulan penelitian dan saran untuk penelitian berikutnya.
+This chapter discusses the conclusions that resulted from the research conducted, which answers . In addition, this chapter also gives suggestions to further this research.
+
+
+%---------------------------------------------------------------
+\section{Conclusion}
+\label{sec:kesimpulan}
+%---------------------------------------------------------------
+% This research has the following conclusions:
+
+From this research, there are several conclusions that can be made. First of all, the geo-distributed Kubernetes clusters architecture improves the reliability of worldwide applications. Experiment results show that both MCS with MCI and Istio / ASM methods reliably perform at 100\% success rate, making either one a viable choice for application reliabilty. For limited resources, however, MCS with MCI shows better reliability keeping its flawless success rate even with just a single cluster deployed. It is advisable to use the Istio / ASM method with multiple clusters deployed to take advantage if its failover mechanism, as it suffers from slow recovery time, which appears to be the bottleneck for single-cluster reliability.
+
+In addition, Istio / ASM improves application performance. Both MCS with MCI and Istio / ASM methods correctly and efficiently route requests to the cluster with minimal physical distance, which minimizes the overall latency. However, it appears that Istio / ASM is the better choice for application performance as it outperforms MCS with MCI in the 95th percentile of latency on most experiments, which means that its a much more predictable performance, as it is able to deliver lower latency to the vast majority of requests. Despite this, Istio / ASM suffers from outlier performances due to its slow recover and failover time.
+
+% \begin{enumerate}
+% 	\item \bo{Multi-cluster load balancing improves the reliability of worldwide applications} \\
+% 	Experiment results show that both MCS with MCI and Istio / ASM methods reliably perform at 100\% success rate, making either one a viable choice for application reliabilty. For limited resources, however, MCS with MCI shows better reliability keeping its flawless success rate even with just a single cluster deployed. It is advisable to use the Istio / ASM method with multiple clusters deployed to take advantage if its failover mechanism, as it suffers from slow recovery time, which appears to be the bottleneck for single-cluster reliability.
+% 	\item \bo{Istio improves the performance of worldwide application} \\
+% 	Both MCS with MCI and Istio / ASM methods correctly and efficiently route requests to the cluster with minimal physical distance, which minimizes the overall latency. However, it appears that Istio / ASM is the better choice for application performance as it outperforms MCS with MCI in the 95th percentile of latency on most experiments, which means that its a much more predictable performance, as it is able to deliver lower latency to the vast majority of requests. Despite this, Istio / ASM suffers from outlier performances due to its slow recover and failover time.
+% \end{enumerate}
+
+% Berikut ini adalah kesimpulan terkait pekerjaan yang dilakukan dalam penelitian ini:
+% \begin{enumerate}
+% 	\item \bo{Poin pertama} \\
+% 	Penjelasan poin pertama.
+% 	\item \bo{Poin kedua} \\
+% 	Penjelasan poin kedua.
+% \end{enumerate}
+
+% Tulis kalimat penutup di sini.
+Overall, both geo-distributed methods are viable options for worldwide application usage in terms of both reliability and performance. MCS with MCI has its upsides of consistently performing within normal latency ranges while Istio / ASM has a slightly better performance for the majority of the requests but suffers from latency spikes in small cases.
+
+%---------------------------------------------------------------
+\section{Suggestions}
+\label{sec:saran}
+% %---------------------------------------------------------------
+% Berdasarkan hasil penelitian ini, berikut ini adalah saran untuk pengembangan penelitian berikutnya:
+% \begin{enumerate}
+% 	\item Saran 1.
+% 	\item Saran 2.
+% \end{enumerate}
+
+From this research, there are several suggestions that can be done in further studies, one of which, is to study the effects of increasing the replicas of each server. Since Istio / ASM adds complexity to a Kubernetes architecture, it would be useful to research about the effects of horizontal scaling on its overall performance. In addition, further research should be done on other cloud platforms as well, as Google Cloud Platform is only one of many other available cloud service providers such as AWS and Azure. Comparisons between different cloud service providers can be useful to share knowledge about prices between providers as well as overall ease of use for the average developer. In addition, a wider variety of cloud services can be used as different client origins to study the effects of intra-cloud and inter-cloud web performance. Furthermore, future researches should also explore different and/or more regions to measure reliability and performance on a wider geographical scale.
+
+In addition, it would be beneficial to do research on other open-sourced service mesh such as Linkerd and Consul to help understand the benefits and drawbacks of each service mesh implementation and its various features. Furthermore, studies on geo-distributed databases should be explored, as it is one of the most important part of a web application. It is, however, a complex topic that introduces geo-distributed partitioning and replica replacement.
+ % Moreover, adding a more 

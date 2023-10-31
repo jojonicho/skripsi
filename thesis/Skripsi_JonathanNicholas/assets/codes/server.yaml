@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ta-server
+    mcs: mcs
+  name: ta-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ta-server
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ta-server
+    spec:
+      containers:
+        - env:
+            - name: PORT
+              value: "8080"
+            - name: REDIS_HOST
+              value: ta-redis-service
+            - name: REDIS_PORT
+              value: "6379"
+          image: jojonicho/ta-server:latest
+          name: ta-server
+          ports:
+            - containerPort: 8080
+          resources: {}
+          livenessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /todos
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 1
+            timeoutSeconds: 5
+      restartPolicy: Always
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ta-server
+  name: ta-server-service
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: ta-server
+status:
+  loadBalancer: {}

@@ -1,0 +1,45 @@
+%
+% Halaman Abstrak
+%
+% @author  Andreas Febrian
+% @version 2.1.2
+% @edit by Ichlasul Affan
+%
+
+\chapter*{Abstrak}
+\singlespacing
+
+\vspace*{0.2cm}
+
+% Untuk conditional statement pembimbing dua
+\def\blank{}
+
+\noindent \begin{tabular}{l l p{10cm}}
+	Nama&: & \penulis \\
+	Program Studi&: & \program \\
+	Judul&: & \judul \\
+	Pembimbing&: & \pembimbingSatu \\
+	\ifx\blank\pembimbingDua
+    \else
+        \ &\ & \pembimbingDua \\
+    \fi
+    \ifx\blank\pembimbingTiga
+    \else
+    	\ &\ & \pembimbingTiga \\
+    \fi
+\end{tabular} \\
+
+\vspace*{0.5cm}
+
+% \noindent Dengan kebutuhan untuk menyediakan layanan kepada pengguna di seluruh dunia yang terus berkembang, layanan aplikasi web harus berdaptasi menggunakan teknologi baru untuk memenuhi kebutuhan ini.
+
+% Namun, ada kelangkaan studi mengenai metode \textit{geo-distributed clusters} dan kinerjanya. Oleh karena itu,
+
+\noindent Kebutuhan untuk menyediakan layanan kepada pengguna di seluruh dunia menyebabkan layanan aplikasi web untuk berdaptasi menggunakan teknologi baru dan memadai. Untuk mencapai hal tersebut, layanan cloud servis digunakan untuk memperluas jangkauan geografis dari layanan web di seluruh dunia. Peningkatan kualitas pengembangan \textit{deployment} aplikasi web terlihat pada Kubernetes, alat yang diadopsi secara luas yang didukung di sebagian besar platform cloud, yang memungkinkan penerapan \textit{geo-distributed clusters} untuk aplikasi yang memiliki pengguna multinasional. Dikarenakan kelangkaan studi mengenai \textit{geo-distributed clusters} dan kinerjanya, penelitian ini bermaksud untuk menjembatani kesenjangan pengetahuan tersebut dengan mengimplementasikan solusi menggunakan Istio (Anthos Service Mesh), mesh layanan yang paling banyak digunakan untuk aplikasi Kubernetes, serta solusi cloud native di Google Cloud Platform menggunakan MultiClusterService. Studi ini menemukan bahwa kedua pendekatan tersebut dapat diandalkan, namun, Istio/ASM memiliki latensi yang sedikit lebih rendah untuk sebagian besar \textit{request}. Kedua pendekatan tersebut merupakan pilihan baik untuk aplikasi global, karena keduanya menggunakan \textit{geo-aware load balancing}, yang merutekan permintaan pengguna ke klaster terdekat yang tersedia. Basis kode studi dan hasil pengujian ini tersedia secara \textit{open-sourced} untuk studi lebih lanjut tentang aplikasi berbasis \textit{geo-distributed Kubernetes clusters}.\\
+
+\vspace*{0.2cm}
+
+\noindent Kata kunci: \\ Kubernetes, Google Cloud Platform, MultiClusterService, Istio, Anthos Service Mesh \\
+
+\setstretch{1.4}
+\newpage
