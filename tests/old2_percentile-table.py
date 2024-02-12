@@ -53,9 +53,6 @@ def process_dc(dc, filename, i, rps):
     dc['95th'] = round(dc['latencies']['95th'] / 1000000, 3)
     dc['name'] = f"{filename}-{i}"
     dc['rps'] = rps
-    dc['mean'] = round(dc['latencies']['mean'] / 1000000, 3)
-    dc['min'] = round(dc['latencies']['min'] / 1000000, 3)
-    dc['max'] = round(dc['latencies']['max'] / 1000000, 3)
 
     return dc
 
@@ -73,8 +70,7 @@ def process_multiple_dc(filename):
                 dc = process_dc(json.loads(open(json_file).read()), filename, i, rps)
                 # print(f" & & {i} & {dc['rps']} & {dc['50th']} & {dc['95th']} \\\\ \\cline{{3-6}}")
                 location = location_mp[filename.split('-')[1]]
-                # res.append([location, dc['rps'], dc['50th'], dc['95th'], "\\\\ \\cline{3-6}"])
-                res.append([location, rps, dc['min'], dc['50th'], dc['mean'], dc['95th'], dc['max'], "\\\\ \\cline{3-6}"])
+                res.append([location, dc['rps'], dc['50th'], dc['95th'], "\\\\ \\cline{3-6}"])
 
                 i += 1
             except Exception as e:
@@ -96,10 +92,8 @@ dc = process_multiple_dc(asm_sea)
 
 dc = process_multiple_dc(asm_aus)
 
-print(len(res))
-
-# res[8][-1] = "\\\\ \\cline{2-6}"
-# res[26][-1] = "\\\\ \\cline{2-6}"
+res[8][-1] = "\\\\ \\cline{2-6}"
+res[26][-1] = "\\\\ \\cline{2-6}"
 
 res[17][-1] = "\\\\ \\hline"
 res[-1][-1] = "\\\\ \\hline"
@@ -120,140 +114,133 @@ res = res[:18]
 diff = 0
 c = 0
 
-debug_res(mcs)
-debug_res(asm)
-
 diff2, c2 = 0, 0
 
 for i in range(18):
     # append two spaces
     res[i].append("")
     res[i].append("")
-    res[i].append("")
-    res[i].append("")
-    res[i].append("")
 
     # res[i][-1] = res[i][-3]
-    res[i][-1] = "\\\\ \\cline{3-12}"
-    # res[i][-1] = "\\\\ \\cline{3-6}"
+    # res[i][-1] = "\\\\ \\cline{3-12}"
+    res[i][-1] = "\\\\ \\cline{3-6}"
+    l, r = 2, 3
+    res[i][2:6] = [mcs[i][l], asm[i][r], mcs[i][r], asm[i][r]]
+    
 
-    # res[i][2:12] = [mcs[i][l], asm[i][r], mcs[i][r], asm[i][r]]
-    # k = 2
-    # for j in range(2, 7):
-        # res[i][k] = mcs[i][j]
-        # res[i][k+1] = asm[i][j]
-        # k += 2
+    if res[i][l] < res[i][r]:
+        diff2 += res[i][r] - res[i][l]
+        res[i][l] = "\\textbf{" + str(res[i][l]) + "}"
+        c2 += 1
+    else:
+        res[i][r] = "\\textbf{" + str(res[i][r]) + "}"
 
-    res[i][2:12] = [mcs[i][2], asm[i][2], mcs[i][3], asm[i][3], mcs[i][4], asm[i][4], mcs[i][5], asm[i][5], mcs[i][6], asm[i][6]]
+    r, l = 4, 5
+    if res[i][l] < res[i][r]:
+        res[i][l] = "\\textbf{" + str(res[i][l]) + "}"
+    else:
+        diff += res[i][l] - res[i][r]
+        c += 1
+        res[i][r] = "\\textbf{" + str(res[i][r]) + "}"
 
-    for l, r in [(2, 3), (4, 5), (6, 7), (8, 9), (10, 11)]:
-        if res[i][l] < res[i][r]:
-            # diff2 += res[i][r] - res[i][l]
-            res[i][l] = "\\textbf{" + str(res[i][l]) + "}"
-            # c2 += 1
-        else:
-            res[i][r] = "\\textbf{" + str(res[i][r]) + "}"
-
-# diff /= c
-# diff2 /= c2
+diff /= c
+diff2 /= c2
 print(diff, c)
 print(diff2, c2)
 
 res[17][-1] = "\\\\ \\hline"
 
-print("ANS")
-
 debug_res(res)
 
-# print("MEAN MIN MAX addition")
+print("MEAN MIN MAX addition")
 
-# # MEAN MIN MAX
+# MEAN MIN MAX
 
-# N_TESTCASES = 3
+N_TESTCASES = 3
 
-# def process_dc(dc):
-    # dc['mean'] = dc['latencies']['mean'] / 1000000
-    # dc['min'] = dc['latencies']['min'] / 1000000
-    # dc['max'] = dc['latencies']['max'] / 1000000
-    # return dc
+def process_dc(dc):
+    dc['mean'] = dc['latencies']['mean'] / 1000000
+    dc['min'] = dc['latencies']['min'] / 1000000
+    dc['max'] = dc['latencies']['max'] / 1000000
+    return dc
 
-# def process_multiple_dc(filename, rps, table_index, table_col):
-    # # try out every mc_sea file from mc_sea + '-1' and increment until file not exists
-    # i = 1
-    # dc = None
-    # while True:
-        # try:
-            # json_file = f"{filename}-{i}/{rps}.json"
-            # if i == 1:
-                # dc = process_dc(json.loads(open(json_file).read()))
-            # else:
-                # ndc = process_dc(json.loads(open(json_file).read()))
+def process_multiple_dc(filename, rps, table_index, table_col):
+    # try out every mc_sea file from mc_sea + '-1' and increment until file not exists
+    i = 1
+    dc = None
+    while True:
+        try:
+            json_file = f"{filename}-{i}/{rps}.json"
+            if i == 1:
+                dc = process_dc(json.loads(open(json_file).read()))
+            else:
+                ndc = process_dc(json.loads(open(json_file).read()))
 
-                # dc['mean'] += ndc['mean']
-                # dc['min'] = min(dc['min'], ndc['min'])
-                # dc['max'] = max(dc['max'], ndc['max'])
+                dc['mean'] += ndc['mean']
+                dc['min'] = min(dc['min'], ndc['min'])
+                dc['max'] = max(dc['max'], ndc['max'])
 
-            # i += 1
-        # except:
-            # i -= 1
-            # break
+            i += 1
+        except:
+            i -= 1
+            break
 
-    # dc['mean'] /= i
+    dc['mean'] /= i
 
-    # location = location_mp[filename.split('-')[1]]
+    location = location_mp[filename.split('-')[1]]
 
-    # # limit min, mean, max to 3 decimal places
-    # dc['mean'] = round(dc['mean'], 3)
-    # dc['min'] = round(dc['min'], 3)
-    # dc['max'] = round(dc['max'], 3)
+    # limit min, mean, max to 3 decimal places
+    dc['mean'] = round(dc['mean'], 3)
+    dc['min'] = round(dc['min'], 3)
+    dc['max'] = round(dc['max'], 3)
 
-    # if table_col == 0:
-        # for i in range(N_TESTCASES):
-            # prv_back = res[table_index + i][-1]
-            # res[table_index + i][-1] = ""
-            # res[table_index + i].extend(["", "", "", "", "", ""])
-            # res[table_index + i][-1] = prv_back
+    if table_col == 0:
+        for i in range(N_TESTCASES):
+            prv_back = res[table_index + i][-1]
+            res[table_index + i][-1] = ""
+            res[table_index + i].extend(["", "", "", "", "", ""])
+            res[table_index + i][-1] = prv_back
 
-    # res[table_index + N_TESTCASES // 2][-7 + table_col] = dc['min']
-    # res[table_index + N_TESTCASES // 2][-5 + table_col] = dc['mean']
-    # res[table_index + N_TESTCASES // 2][-3 + table_col] = dc['max']
+    res[table_index + N_TESTCASES // 2][-7 + table_col] = dc['min']
+    res[table_index + N_TESTCASES // 2][-5 + table_col] = dc['mean']
+    res[table_index + N_TESTCASES // 2][-3 + table_col] = dc['max']
 
-    # res[table_index + N_TESTCASES - 1][-1] = "\\\\ \\hline"
-    # if table_col == 1:
-        # if res[table_index + N_TESTCASES // 2][-7] < res[table_index + N_TESTCASES // 2][-6]:
-            # res[table_index + N_TESTCASES // 2][-7] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-7]) + "}"
-        # else:
-            # res[table_index + N_TESTCASES // 2][-6] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-6]) + "}"
+    res[table_index + N_TESTCASES - 1][-1] = "\\\\ \\hline"
+    if table_col == 1:
+        if res[table_index + N_TESTCASES // 2][-7] < res[table_index + N_TESTCASES // 2][-6]:
+            res[table_index + N_TESTCASES // 2][-7] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-7]) + "}"
+        else:
+            res[table_index + N_TESTCASES // 2][-6] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-6]) + "}"
 
-        # if res[table_index + N_TESTCASES // 2][-5] < res[table_index + N_TESTCASES // 2][-4]:
-            # res[table_index + N_TESTCASES // 2][-5] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-5]) + "}"
-        # else:
-            # res[table_index + N_TESTCASES // 2][-4] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-4]) + "}"
+        if res[table_index + N_TESTCASES // 2][-5] < res[table_index + N_TESTCASES // 2][-4]:
+            res[table_index + N_TESTCASES // 2][-5] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-5]) + "}"
+        else:
+            res[table_index + N_TESTCASES // 2][-4] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-4]) + "}"
 
-        # if res[table_index + N_TESTCASES // 2][-3] < res[table_index + N_TESTCASES // 2][-2]:
-            # res[table_index + N_TESTCASES // 2][-3] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-3]) + "}"
-        # else:
-            # res[table_index + N_TESTCASES // 2][-2] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-2]) + "}"
-    # # res.append([location, rps, dc['min'], dc['mean'], dc['max'], "\\\\ \\cline{3-5}"])
+        if res[table_index + N_TESTCASES // 2][-3] < res[table_index + N_TESTCASES // 2][-2]:
+            res[table_index + N_TESTCASES // 2][-3] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-3]) + "}"
+        else:
+            res[table_index + N_TESTCASES // 2][-2] = "\\textbf{" + str(res[table_index + N_TESTCASES // 2][-2]) + "}"
+    # res.append([location, rps, dc['min'], dc['mean'], dc['max'], "\\\\ \\cline{3-5}"])
 
 
-# process_multiple_dc(mc_sea, 10, 0, 0)
-# process_multiple_dc(mc_sea, 50, N_TESTCASES, 0)
-# process_multiple_dc(mc_sea, 100, 2 * N_TESTCASES, 0)
+process_multiple_dc(mc_sea, 10, 0, 0)
+process_multiple_dc(mc_sea, 50, N_TESTCASES, 0)
+process_multiple_dc(mc_sea, 100, 2 * N_TESTCASES, 0)
 
-# process_multiple_dc(asm_sea, 10, 0, 1)
-# process_multiple_dc(asm_sea, 50, N_TESTCASES, 1)
-# process_multiple_dc(asm_sea, 100, 2 * N_TESTCASES, 1)
+process_multiple_dc(asm_sea, 10, 0, 1)
+process_multiple_dc(asm_sea, 50, N_TESTCASES, 1)
+process_multiple_dc(asm_sea, 100, 2 * N_TESTCASES, 1)
 
-# process_multiple_dc(mc_aus, 10, 3 * N_TESTCASES, 0)
-# process_multiple_dc(mc_aus, 50, 4 * N_TESTCASES, 0)
-# process_multiple_dc(mc_aus, 100, 5 * N_TESTCASES, 0)
+process_multiple_dc(mc_aus, 10, 3 * N_TESTCASES, 0)
+process_multiple_dc(mc_aus, 50, 4 * N_TESTCASES, 0)
+process_multiple_dc(mc_aus, 100, 5 * N_TESTCASES, 0)
 
-# process_multiple_dc(asm_aus, 10, 3 * N_TESTCASES, 1)
-# process_multiple_dc(asm_aus, 50, 4 * N_TESTCASES, 1)
-# process_multiple_dc(asm_aus, 100, 5 * N_TESTCASES, 1)
+process_multiple_dc(asm_aus, 10, 3 * N_TESTCASES, 1)
+process_multiple_dc(asm_aus, 50, 4 * N_TESTCASES, 1)
+process_multiple_dc(asm_aus, 100, 5 * N_TESTCASES, 1)
 
-# debug_res(res)
+debug_res(res)
 
 # HEAD TO HEAD
 # mcs = res[:6]
